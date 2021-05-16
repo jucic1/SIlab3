@@ -56,5 +56,4 @@ public class Mancala {
     private boolean isGameFinished() {
         return board.isPlayerSideEmpty(firstPlayer) && board.isPlayerSideEmpty(secondPlayer);
     }
-
 }

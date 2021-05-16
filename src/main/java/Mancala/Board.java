@@ -14,25 +14,25 @@ class Board {
 
     ArrayList<Integer> getChoicesForPlayer(Player player) {
         ArrayList<Integer> indexes = new ArrayList<Integer>();
+        int startIndex, endIndex;
         if (player.getOrder().equals(Order.FIRST)) {
-            for (int i = 5; i >= 0; i--) {
-                if (board[i] != 0) {
-                    indexes.add(translateHumanMoveToIndex(i));
-                }
-            }
+            startIndex = 0;
+            endIndex =5;
         } else {
-            for (int i = 7; i <= 12; i++) {
-                if (board[i] != 0) {
-                    indexes.add(i);
-                }
+            startIndex = 7;
+            endIndex =12;
+        }
+        for (int i = startIndex; i <= endIndex; i++) {
+            if (board[i] != 0) {
+                indexes.add(i);
             }
         }
         return indexes;
     }
 
-    boolean moveRocks(Player currentPlayer, int move) { //if return true, then another move
-        int amountOfRocks = pickRocksForIndex(translateHumanMoveToIndex(move));
-        int indexOfCurrentHole = translateHumanMoveToIndex(move) + 1;
+    boolean moveRocks(Player currentPlayer, int index) { //if return true, then another move
+        int amountOfRocks = pickRocksForIndex(index);
+        int indexOfCurrentHole = index + 1;
         if (currentPlayer.getOrder().equals(Order.FIRST)) {
             return moveRocksForPlayer(6, 13, amountOfRocks, indexOfCurrentHole);
         } else {
@@ -78,13 +78,6 @@ class Board {
         return rocksAmount;
     }
 
-    private int translateHumanMoveToIndex(int move) {
-        if (move <= 6) {
-            return Math.abs(move - 6);
-        } else {
-            return move;
-        }
-    }
 
     private boolean moveRocksForPlayer(int myPointsIndex, int otherPointsIndex, int amountOfRocks, int index) {
         while (amountOfRocks != 0) {
