@@ -1,27 +1,36 @@
 package Mancala;
 
+import java.util.ArrayList;
+
 public class Node {
     private Board board;
     private Player firstPlayer;
     private Player secondPlayer;
+    private int chosenValue;
+    private ArrayList<Node> children;
 
-    public Node(Board board, Player firstPlayer, Player secondPlayer) {
+    Node(Board board, Player firstPlayer, Player secondPlayer, int chosenValue) {
         this.board = board;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
+        this.chosenValue = chosenValue;
+        this.children = new ArrayList<Node>();
     }
 
-    public void buildDecisionTree(int depth, Node root) {
-
-
+    public void buildDecisionTree(int depth, Node currentNode) {
+        if (depth == 0) {
+            //
+        }
+        ArrayList<Integer> choices = board.getChoicesForPlayer(currentNode.firstPlayer);
+        for (Integer choice : choices) {
+            Board tempBoard = new Board(currentNode.board);
+            boolean samePlayer = tempBoard.moveRocks(currentNode.firstPlayer, choice); //if true dont change player, else change
+            Player nextPlayer = samePlayer ? currentNode.firstPlayer : currentNode.secondPlayer;
+            Player nextOponent = samePlayer ? currentNode.secondPlayer : currentNode.firstPlayer;
+            Node child = new Node(tempBoard, nextPlayer, nextOponent, choice);
+            currentNode.children.add(child);
+            int newDepth = samePlayer ? depth : depth - 1;
+            currentNode.buildDecisionTree(newDepth, child);
+        }
     }
 }
-
-
-//        for choice in get_player_choices(current_node.player1, current_node.board):
-//                tmp_board = deepcopy(current_node.board)
-//                another_turn = move_rocks(current_node.player1, tmp_board, choice)
-//                child = Node(tmp_board, current_node.player1 if another_turn else current_node.player2,
-//                current_node.player2 if another_turn else current_node.player1, choice)
-//                current_node.children.append(child)
-//                current_node.build_decision_tree(depth - 1 if not another_turn else depth, child)

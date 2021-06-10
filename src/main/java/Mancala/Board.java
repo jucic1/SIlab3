@@ -9,7 +9,14 @@ class Board {
     private int[] board;
 
     Board() {
-        board = new int[]{4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0};
+        this.board = new int[]{4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0};
+    }
+
+    Board(Board otherBoard){
+        this.board = new int[otherBoard.board.length];
+        for(int i = 0; i<otherBoard.board.length; i++) {
+            this.board[i] = otherBoard.board[i];
+        }
     }
 
     ArrayList<Integer> getChoicesForPlayer(Player player) {
@@ -94,6 +101,9 @@ class Board {
                 }
             }
             index++;
+            if(index == 14) {
+                index = 0;
+            }
         }
         return false;
     }

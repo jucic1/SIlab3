@@ -7,7 +7,7 @@ public class Main {
         HumanPlayer human = new HumanPlayer();
         HumanPlayer human2 = new HumanPlayer();
         Bot bot = new Bot();
-        Mancala mancala = new Mancala(human2, human);
+        Mancala mancala = new Mancala(bot, human);
         mancala.run();
     }
 }
